@@ -10,7 +10,7 @@ app.use(cors())
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-// app.use("/coffees", coffees);
+app.use("/coffees", coffees);
 
 app.get('/', (req, resp) => {
     resp.json({
@@ -21,16 +21,15 @@ app.get('/', (req, resp) => {
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     const err = new Error("Not Found");
-    err.status = 404;
+    res.status(404);
     next(err);
 });
-
 // error handler
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.json({
-      message: err.message,
-      error: req.app.get("env") === "development" ? err.stack : {}
+        message: err.message,
+        error: req.app.get("env") === "development" ? err.stack : {}
     });
 });
 
